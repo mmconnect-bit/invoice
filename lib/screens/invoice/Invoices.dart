@@ -22,6 +22,7 @@ class _InvoicesState extends State<Invoices> {
   int _rowsPerPage = 10;
   final InvoiceController invoiceController = Get.put(InvoiceController());
   final HomeControllerWidget homeController = Get.put(HomeControllerWidget());
+  String _searchQuery = "";
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,7 +51,13 @@ class _InvoicesState extends State<Invoices> {
           ],
         ),
         SizedBox(height: 10),
-        SearchField(),
+        SearchField(
+          onSearch: (String) {
+            setState(() {
+              _searchQuery = String.toLowerCase();
+            });
+          },
+        ),
         SizedBox(height: 10),
         Container(
           margin: EdgeInsets.all(16),
@@ -83,8 +90,20 @@ class _InvoicesState extends State<Invoices> {
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(child: Text("No invoices found"));
                       } else {
-                        final invoices = snapshot.data!;
-
+                        final filtered = snapshot.data!.where((invoice) {
+                          return invoice.invoiceNo
+                                  .toLowerCase()
+                                  .contains(_searchQuery) ||
+                              invoice.date
+                                  .toLowerCase()
+                                  .contains(_searchQuery) ||
+                              invoice.customer.name
+                                  .toLowerCase()
+                                  .contains(_searchQuery) ||
+                              invoice.customer.phone
+                                  .toLowerCase()
+                                  .contains(_searchQuery);
+                        }).toList();
                         return PaginatedDataTable(
                           header: Text("Invoice List"),
                           rowsPerPage: _rowsPerPage,
@@ -106,7 +125,7 @@ class _InvoicesState extends State<Invoices> {
                             DataColumn(label: Text('Amount')),
                             DataColumn(label: Text('Actions')),
                           ],
-                          source: InvoiceDataSource(context, invoices),
+                          source: InvoiceDataSource(context, filtered),
                         );
                       }
                     },
@@ -139,7 +158,7 @@ class InvoiceDataSource extends DataTableSource {
     final productPrice = hasProduct
         ? invoice.product
             .fold(0.0, (sum, item) => sum + double.parse(item.price))
-        : "0";
+        : 0;
 
     return DataRow(cells: [
       DataCell(Text(no)),

@@ -698,7 +698,6 @@ Future<void> generateInvoiceTemplete2(Invoice invoice) async {
       },
     ),
   );
-
   final directory = await getApplicationDocumentsDirectory();
   final file = File("${directory.path}/invoice.pdf");
   await file.writeAsBytes(await pdf.save());

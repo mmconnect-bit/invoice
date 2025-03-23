@@ -18,6 +18,7 @@ class Customers extends StatefulWidget {
 class _CustomersState extends State<Customers> {
   int _rowsPerPage = 10;
   int _currentPage = 0;
+  String _searchQuery = '';
   final CustomerController customerController = Get.put(CustomerController());
 
   @override
@@ -61,7 +62,13 @@ class _CustomersState extends State<Customers> {
           ],
         ),
         SizedBox(height: 10),
-        SearchField(),
+        SearchField(
+          onSearch: (String) {
+            setState(() {
+              _searchQuery = String.toLowerCase();
+            });
+          },
+        ),
         SizedBox(height: 10),
         Container(
             margin: EdgeInsets.all(16),
@@ -88,6 +95,12 @@ class _CustomersState extends State<Customers> {
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(child: Text("No Customer found"));
                   } else {
+                    final filtered = snapshot.data!.where((customer) {
+                      return customer.name
+                              .toLowerCase()
+                              .contains(_searchQuery) ||
+                          customer.phone.toLowerCase().contains(_searchQuery);
+                    }).toList();
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -112,7 +125,7 @@ class _CustomersState extends State<Customers> {
                               DataColumn(label: Text('Address')),
                               DataColumn(label: Text('Actions')),
                             ],
-                            source: CustomerDataSource(context, snapshot.data!),
+                            source: CustomerDataSource(context, filtered),
                           ),
                         ),
                       ],

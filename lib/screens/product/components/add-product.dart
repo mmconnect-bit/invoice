@@ -70,7 +70,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   backgroundColor: Colors.green,
-                  content: Text("${nameController.text} updated!")),
+                  content: Text("${nameController.text} created!")),
             );
             homeController.onTab(3);
             Navigator.pop(context);

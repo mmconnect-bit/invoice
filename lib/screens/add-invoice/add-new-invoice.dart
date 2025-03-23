@@ -68,7 +68,7 @@ class _AddInvoicePageState extends State<AddInvoicePage> {
   }
 
   void _submitInvoice() async {
-    if (_formKey.currentState!.validate() && selectedCustomer != null) {
+    if (selectedProductsWithQuantity.isNotEmpty && selectedCustomer != null) {
       List<Product> selectedProducts = selectedProductsWithQuantity.entries
           .expand((entry) => List.filled(entry.value, entry.key))
           .toList();
@@ -328,9 +328,9 @@ class _AddInvoicePageState extends State<AddInvoicePage> {
                           }).toList(),
                         ),
                       SizedBox(height: 10),
-                      if (_isEmptyData)
+                      if (_isEmptyData && selectedProductsWithQuantity.isEmpty)
                         Text(
-                          "There is no customer selected ",
+                          "Select customer and  atleast one product",
                           style: TextStyle(color: Colors.red),
                         ),
                       SizedBox(height: 10),

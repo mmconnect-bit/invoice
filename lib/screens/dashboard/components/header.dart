@@ -63,73 +63,47 @@ class GlowingText extends StatelessWidget {
   }
 }
 
-// class ProfileCard extends StatelessWidget {
-//   const ProfileCard({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: EdgeInsets.only(left: defaultPadding),
-//       padding: EdgeInsets.symmetric(
-//         horizontal: defaultPadding,
-//         vertical: defaultPadding / 2,
-//       ),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: const BorderRadius.all(Radius.circular(10)),
-//         border: Border.all(color: Colors.white10),
-//       ),
-//       child: Row(
-//         children: [
-//           Image.asset(
-//             "assets/images/profile_pic.png",
-//             height: 38,
-//           ),
-//           if (!Responsive.isMobile(context))
-//             Padding(
-//               padding:
-//                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-//               child: Text("Angelina Jolie"),
-//             ),
-//           Icon(Icons.keyboard_arrow_down),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class SearchField extends StatelessWidget {
-  const SearchField({
-    Key? key,
-  }) : super(key: key);
+  final Function(String) onSearch;
+
+  const SearchField({Key? key, required this.onSearch}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3), // shadow color
+            spreadRadius: 4, // how far the shadow spreads
+            blurRadius: 20, // blur softness
+            offset: Offset(0, 0), // equal shadow on all sides
+          ),
+        ],
+      ),
       width: 500,
       child: TextField(
+        onChanged: onSearch, // 👈 call the parent callback on input
         decoration: InputDecoration(
           hintText: "Search",
           fillColor: Colors.white,
           filled: true,
           border: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
-                width: 2), // Primary color border
+            borderSide:
+                BorderSide(color: Theme.of(context).primaryColor, width: 2),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
-                width: 2), // Border when not focused
+            borderSide:
+                BorderSide(color: Theme.of(context).primaryColor, width: 2),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
-                width: 3), // Thicker border when focused
+            borderSide:
+                BorderSide(color: Theme.of(context).primaryColor, width: 3),
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           suffixIcon: InkWell(

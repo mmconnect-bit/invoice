@@ -17,7 +17,7 @@ class Products extends StatefulWidget {
 
 class _ProductsState extends State<Products> {
   int _rowsPerPage = 10;
-
+  String _searchQuery = '';
   final ProductController productController = Get.put(ProductController());
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,13 @@ class _ProductsState extends State<Products> {
           ],
         ),
         SizedBox(height: 10),
-        SearchField(),
+        SearchField(
+          onSearch: (String) {
+            setState(() {
+              _searchQuery = String.toLowerCase();
+            });
+          },
+        ),
         SizedBox(height: 10),
         FutureBuilder<List<Product>>(
             future: productController.fetchProducts(),
@@ -63,6 +69,10 @@ class _ProductsState extends State<Products> {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(child: Text("No Product found"));
               } else {
+                final filtered = snapshot.data!.where((product) {
+                  return product.name.toLowerCase().contains(_searchQuery) ||
+                      product.code.toLowerCase().contains(_searchQuery);
+                }).toList();
                 return Container(
                   margin: EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -104,7 +114,7 @@ class _ProductsState extends State<Products> {
                             DataColumn(label: Text('Category')),
                             DataColumn(label: Text('Actions')),
                           ],
-                          source: ProductDataSource(context, snapshot.data!),
+                          source: ProductDataSource(context, filtered),
                         ),
                       ),
                     ],
