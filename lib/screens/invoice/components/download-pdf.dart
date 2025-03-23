@@ -348,7 +348,13 @@ Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
                     color: PdfColors.white,
                   ),
                   headerDecoration: pw.BoxDecoration(color: pdfColors),
-                  headers: ["#", "Item Description", "Qty"],
+                  headers: [
+                    "#",
+                    "Item Description",
+                    "Qty",
+                    "Unit price",
+                    "Total"
+                  ],
                   cellAlignment: pw.Alignment.centerLeft,
                   data: List<List<String>>.generate(
                     uniqueProducts.length,
@@ -647,7 +653,13 @@ Future<void> downloadInvoiceTemplete2(Invoice invoice) async {
                     color: PdfColors.white,
                   ),
                   headerDecoration: pw.BoxDecoration(color: pdfColors),
-                  headers: ["#", "Item Description", "Qty"],
+                  headers: [
+                    "#",
+                    "Item Description",
+                    "Qty",
+                    "Unit price",
+                    "Total"
+                  ],
                   cellAlignment: pw.Alignment.centerLeft,
                   data: List<List<String>>.generate(
                     uniqueProducts.length,
