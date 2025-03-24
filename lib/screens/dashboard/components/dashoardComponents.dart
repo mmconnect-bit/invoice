@@ -1,3 +1,4 @@
+import 'package:admin/constants/constants.dart';
 import 'package:admin/models/Invoice.dart';
 import 'package:admin/repository/invoice-controller.dart';
 import 'package:admin/screens/dashboard/components/best-customer.dart';
@@ -10,7 +11,7 @@ import 'package:intl/intl.dart';
 
 class InvoiceCards extends StatelessWidget {
   final InvoiceController invoiceController = Get.put(InvoiceController());
-
+  AppConstants constants = AppConstants.instance;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -76,7 +77,7 @@ class InvoiceCards extends StatelessWidget {
                           ),
                         ],
                       ),
-                      width: 1200,
+                      width: constants.screenWidth(context) * 0.15,
                       height: 50,
                       child: Center(
                           child: Text(

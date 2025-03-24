@@ -1,3 +1,4 @@
+import 'package:admin/constants/constants.dart';
 import 'package:admin/screens/setting/setting-config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -186,6 +187,7 @@ class _DualImageSelectorState extends State<DualImageSelector> {
     await prefs.setInt('selected_template', index);
   }
 
+  AppConstants constant = AppConstants.instance;
   void showImageDialog(String imagePath) {
     showDialog(
       context: context,
@@ -200,7 +202,7 @@ class _DualImageSelectorState extends State<DualImageSelector> {
               child: Image.asset(
                 imagePath,
                 fit: BoxFit.contain,
-                height: 800,
+                height: constant.screenHeight(context) * 0.8,
               ),
             ),
             SizedBox(height: 8),
@@ -229,8 +231,8 @@ class _DualImageSelectorState extends State<DualImageSelector> {
                   GestureDetector(
                     onTap: () => showImageDialog(images[index]),
                     child: Container(
-                      height: 200,
-                      width: 200,
+                      height: constant.screenWidth(context) * 0.2,
+                      width: constant.screenWidth(context) * 0.2,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: selectedIndex == index

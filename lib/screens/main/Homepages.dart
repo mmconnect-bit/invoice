@@ -15,6 +15,7 @@ import '../product/product.dart';
 class HomepageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AppConstants constants=AppConstants.instance;
     return SafeArea(
       child: GetBuilder<HomeControllerWidget>(
           builder: (controller) => SingleChildScrollView(
@@ -61,7 +62,7 @@ class HomepageScreen extends StatelessWidget {
                 offset: Offset(0, 0), // equal shadow on all sides
               ),
             ],
-          ),width: 800, child: SettingsScreen())),
+          ),width:constants.screenWidth(context)*0.8, child: SettingsScreen())),
                       ),
                   ],
                 ),

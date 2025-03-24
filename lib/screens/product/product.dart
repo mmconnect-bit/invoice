@@ -1,3 +1,4 @@
+import 'package:admin/controllers/home-widget-controller.dart';
 import 'package:admin/repository/product-controller.dart';
 import 'package:admin/screens/dashboard/components/header.dart';
 import 'package:flutter/material.dart';
@@ -202,7 +203,7 @@ class ProductDataSource extends DataTableSource {
         TextEditingController(text: product.unit);
     TextEditingController categoryController =
         TextEditingController(text: product.category);
-
+    final HomeControllerWidget homeController = Get.put(HomeControllerWidget());
     final ProductController productController = Get.put(ProductController());
 
     showDialog(
@@ -260,6 +261,7 @@ class ProductDataSource extends DataTableSource {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text("${nameController.text} updated!")),
                 );
+                homeController.onTab(3);
                 Navigator.pop(context);
               },
               child: const Text("Save"),

@@ -1,3 +1,4 @@
+import 'package:admin/constants/constants.dart';
 import 'package:admin/models/Invoice.dart';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -24,7 +25,7 @@ class PieCharts extends StatelessWidget {
     final DateTime now = DateTime.now();
     final int currentMonth = now.month;
     final int currentYear = now.year;
-
+    AppConstants constants = AppConstants.instance;
     // Filter invoices for current month and year
     final List<Invoice> filteredInvoices = invoices.where((invoice) {
       final invoiceDate =
@@ -90,8 +91,8 @@ class PieCharts extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                  height: 300,
-                  width: 300,
+                  height: constants.screenHeight(context) * 0.4,
+                  width: constants.screenWidth(context) * 0.15,
                   child: PieChart(
                     PieChartData(
                       sectionsSpace: 2,
@@ -105,7 +106,7 @@ class PieCharts extends StatelessWidget {
                           color: colors[i % colors.length],
                           value: product.value,
                           title: '$percent%',
-                          radius: 200,
+                          radius: constants.screenWidth(context) * 0.09,
                           titleStyle: TextStyle(
                             color: Colors.white,
                             fontSize: 14,
@@ -117,7 +118,7 @@ class PieCharts extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 200,
+                  width: constants.screenWidth(context) * 0.15,
                 ),
                 Column(
                   spacing: 16,
@@ -153,9 +154,10 @@ class LegendItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppConstants constants = AppConstants.instance;
     return Container(
       color: color,
-      width: 200,
+      width: constants.screenWidth(context) * 0.15,
       child: ListTile(
         title: Text(
           label1,
