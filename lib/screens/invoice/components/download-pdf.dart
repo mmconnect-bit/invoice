@@ -156,6 +156,7 @@ Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
                   headers: [
                     "#",
                     "Item Description",
+                    "Unit",
                     "Qty",
                     "Unit Price",
                     "Total",
@@ -173,9 +174,10 @@ Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
                       return [
                         "${index + 1}",
                         product.name,
+                        product.unit,
                         "$quantity",
-                        "${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(unitPrice)}",
-                        " ${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(total)}",
+                        "${NumberFormat.currency(locale: 'en', symbol: '').format(unitPrice)}",
+                        " ${NumberFormat.currency(locale: 'en', symbol: '').format(total)}",
                       ];
                     },
                   ),
@@ -351,6 +353,7 @@ Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
                   headers: [
                     "#",
                     "Item Description",
+                    "unit",
                     "Qty",
                     "Unit price",
                     "Total"
@@ -369,9 +372,10 @@ Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
                       return [
                         "${index + 1}",
                         product.name,
+                        product.unit,
                         "$quantity",
-                        "${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(unitPrice)}",
-                        " ${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(total)}",
+                        "${NumberFormat.currency(locale: 'en', symbol: '').format(unitPrice)}",
+                        " ${NumberFormat.currency(locale: 'en', symbol: '').format(total)}",
                       ];
                     },
                   ),
@@ -504,7 +508,14 @@ Future<void> downloadInvoiceTemplete2(Invoice invoice) async {
               headerStyle: pw.TextStyle(
                   fontWeight: pw.FontWeight.bold, color: PdfColors.white),
               headerDecoration: pw.BoxDecoration(color: pdfColors),
-              headers: ["#", "Description", "Qty", "Unit Price", "Total"],
+              headers: [
+                "#",
+                "Description",
+                "unit",
+                "Qty",
+                "Unit Price",
+                "Total"
+              ],
               cellAlignment: pw.Alignment.centerLeft,
               data: List<List<String>>.generate(
                 uniqueProducts.length,
@@ -519,9 +530,10 @@ Future<void> downloadInvoiceTemplete2(Invoice invoice) async {
                   return [
                     "${index + 1}",
                     product.name,
+                    product.unit,
                     "$quantity",
-                    "${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(unitPrice)}",
-                    " ${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(total)}",
+                    "${NumberFormat.currency(locale: 'en', symbol: '').format(unitPrice)}",
+                    " ${NumberFormat.currency(locale: 'en', symbol: '').format(total)}",
                   ];
                 },
               ),
@@ -656,6 +668,7 @@ Future<void> downloadInvoiceTemplete2(Invoice invoice) async {
                   headers: [
                     "#",
                     "Item Description",
+                    "unit",
                     "Qty",
                     "Unit price",
                     "Total"
@@ -674,9 +687,10 @@ Future<void> downloadInvoiceTemplete2(Invoice invoice) async {
                       return [
                         "${index + 1}",
                         product.name,
+                        product.unit,
                         "$quantity",
-                        "${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(unitPrice)}",
-                        " ${NumberFormat.currency(locale: 'en', symbol: 'TZS ').format(total)}",
+                        "${NumberFormat.currency(locale: 'en', symbol: '').format(unitPrice)}",
+                        " ${NumberFormat.currency(locale: 'en', symbol: '').format(total)}",
                       ];
                     },
                   ),
