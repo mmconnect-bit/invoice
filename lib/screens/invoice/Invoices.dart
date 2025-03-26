@@ -2,8 +2,10 @@ import 'package:admin/controllers/home-widget-controller.dart';
 import 'package:admin/repository/invoice-controller.dart';
 import 'package:admin/screens/dashboard/components/header.dart';
 import 'package:admin/screens/invoice/components/delete-invoice.dart';
+import 'package:admin/screens/invoice/components/download-derivery.dart';
 import 'package:admin/screens/invoice/components/download-pdf.dart';
 import 'package:admin/screens/invoice/components/generate-invoice.dart';
+import 'package:admin/screens/invoice/components/preforma-invoice.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/models/Invoice.dart';
 import 'package:admin/constants/constants.dart' as constant;
@@ -13,7 +15,6 @@ import 'package:intl/intl.dart';
 
 class Invoices extends StatefulWidget {
   const Invoices({Key? key}) : super(key: key);
-
   @override
   _InvoicesState createState() => _InvoicesState();
 }
@@ -143,23 +144,18 @@ class _InvoicesState extends State<Invoices> {
 class InvoiceDataSource extends DataTableSource {
   final BuildContext context;
   final List<Invoice> invoices;
-
   InvoiceDataSource(this.context, this.invoices);
-
   @override
   DataRow? getRow(int index) {
     if (index >= invoices.length) return null;
-
     final invoice = invoices[index];
     final no = (index + 1).toString();
-
     final hasProduct = invoice.product.isNotEmpty;
     final productName = hasProduct ? invoice.product[0].name : "—";
     final productPrice = hasProduct
         ? invoice.product
             .fold(0.0, (sum, item) => sum + double.parse(item.price))
         : 0;
-
     return DataRow(cells: [
       DataCell(Text(no)),
       DataCell(Text(invoice.date)),
@@ -178,6 +174,8 @@ class InvoiceDataSource extends DataTableSource {
                 context: context,
                 builder: (context) => DeleteInvoiceDialog(fileInfo: invoice),
               );
+            } else if (value == "derivery") {
+              downloadDeriveryNote(invoice);
             } else if (value == "view") {
               int selectedIndex = 0;
               selectedIndex = prefs.getInt('selected_template') ?? 0;
@@ -186,6 +184,15 @@ class InvoiceDataSource extends DataTableSource {
               }
               if (selectedIndex == 1) {
                 generateInvoiceTemplete2(invoice);
+              }
+            } else if (value == "proforma") {
+              int selectedIndex = 0;
+              selectedIndex = prefs.getInt('selected_template') ?? 0;
+              if (selectedIndex == 0) {
+                downloadProforma1(invoice);
+              }
+              if (selectedIndex == 1) {
+                downloadProforma2(invoice);
               }
             } else {
               int selectedIndex = 0;
@@ -200,26 +207,34 @@ class InvoiceDataSource extends DataTableSource {
           },
           itemBuilder: (BuildContext context) => [
             PopupMenuItem(
-              value: "view",
-              child: ListTile(
-                leading: Icon(Icons.download_done,
-                    color: Theme.of(context).primaryColor),
-                title: Text("View"),
-              ),
-            ),
-            PopupMenuItem(
               value: "download",
               child: ListTile(
                 leading:
                     Icon(Icons.download, color: Theme.of(context).primaryColor),
-                title: Text("Download"),
+                title: Text("Download Invoice"),
+              ),
+            ),
+            PopupMenuItem(
+              value: "derivery",
+              child: ListTile(
+                leading:
+                    Icon(Icons.download, color: Theme.of(context).primaryColor),
+                title: Text("Download Derivery Note"),
+              ),
+            ),
+            PopupMenuItem(
+              value: "proforma",
+              child: ListTile(
+                leading:
+                    Icon(Icons.download, color: Theme.of(context).primaryColor),
+                title: Text("Proforma Invoice"),
               ),
             ),
             PopupMenuItem(
               value: "delete",
               child: ListTile(
                 leading: Icon(Icons.delete, color: Colors.red),
-                title: Text("Delete"),
+                title: Text("Delete Invoice"),
               ),
             ),
           ],
@@ -231,10 +246,8 @@ class InvoiceDataSource extends DataTableSource {
 
   @override
   int get rowCount => invoices.length;
-
   @override
   bool get isRowCountApproximate => false;
-
   @override
   int get selectedRowCount => 0;
 }

@@ -40,7 +40,7 @@ const PdfColor primaryColor = PdfColors.blueGrey900;
 const PdfColor secondaryColor = PdfColors.blue;
 const PdfColor textColor = PdfColors.white;
 
-Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
+Future<void> downloadProforma1(Invoice invoice) async {
   final pdf = pw.Document();
   final logo2 =
       (await rootBundle.load('assets/images/logo.png')).buffer.asUint8List();
@@ -94,7 +94,7 @@ Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
               pw.SizedBox(height: 20),
 
               // Invoice Title
-              pw.Text("INVOICE",
+              pw.Text("PROFORMA INVOICE",
                   style: pw.TextStyle(
                       fontSize: 28,
                       fontWeight: pw.FontWeight.bold,
@@ -278,11 +278,12 @@ Future<void> downloadInvoiceTemplete1(Invoice invoice) async {
       },
     ),
   );
+
   await saveInvoiceToLocal(
       pdf, "${invoice.customer.name}_${invoice.invoiceNo}");
 }
 
-Future<void> downloadInvoiceTemplete2(Invoice invoice) async {
+Future<void> downloadProforma2(Invoice invoice) async {
   final pdf = pw.Document();
   final logo =
       (await rootBundle.load('assets/images/logo.png')).buffer.asUint8List();
@@ -323,7 +324,7 @@ Future<void> downloadInvoiceTemplete2(Invoice invoice) async {
             pw.SizedBox(height: 20),
 
             // Title
-            pw.Text("INVOICE",
+            pw.Text("PROFORMA INVOICE",
                 style: pw.TextStyle(
                   fontSize: 28,
                   fontWeight: pw.FontWeight.bold,
